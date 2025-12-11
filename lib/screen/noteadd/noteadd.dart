@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:notebook/controller/noteadd/noteAdd.dart';
+import 'package:notebook/screen/homepage/note.dart';
 
-class NoteAdd extends StatefulWidget {
-  const NoteAdd({super.key});
+class NoteAddScreen extends StatefulWidget {
+  const NoteAddScreen({super.key, this.id, this.note});
+  final int? id;
+  final String? note;
 
   @override
-  State<NoteAdd> createState() => _NoteAddState();
+  State<NoteAddScreen> createState() => _NoteAddState();
 }
-class _NoteAddState extends State<NoteAdd> {
+class _NoteAddState extends State<NoteAddScreen> {
+  TextEditingController notes= TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +26,11 @@ class _NoteAddState extends State<NoteAdd> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: InkWell(
-                onTap: (){},
+                onTap: (){
+                  NoteAdd().noteAdd(data: notes.text);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => NoteHome(),));
+
+                },
                 child: Icon(Icons.check)),
           )
         ],
@@ -40,6 +50,7 @@ class _NoteAddState extends State<NoteAdd> {
 
             Container(
               child: TextField(
+                controller: notes,
                 decoration: InputDecoration(
                   hintText: "Add Description",
                   border: OutlineInputBorder(

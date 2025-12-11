@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 
 class NoteEdit extends StatefulWidget {
-  const NoteEdit({super.key});
+  const NoteEdit({super.key,  this.id,  this.notes});
+
+final int? id;
+final String? notes;
 
   @override
   State<NoteEdit> createState() => _NoteAddState();
+
 }
 class _NoteAddState extends State<NoteEdit> {
+  TextEditingController Notesedit= TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +45,7 @@ class _NoteAddState extends State<NoteEdit> {
 
           Container(
             child: TextField(
+              controller:Notesedit,
               decoration: InputDecoration(
                   hintText: "Add Description",
                   border: OutlineInputBorder(

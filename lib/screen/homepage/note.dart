@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:notebook/controller/delete/noteDelete.dart';
+import 'package:notebook/controller/get/noteAdd.dart';
 import 'package:notebook/screen/noteadd/noteadd.dart';
 import 'package:notebook/screen/noteedit/noteEdit.dart';
 
@@ -17,6 +19,20 @@ final month = now.month;
 final year = now.year;
 
 class _NoteHomeState extends State<NoteHome> {
+  List noteData = [];
+
+  getByData() async {
+    var data = await GetData().getData();
+    noteData = data;
+    setState(() {
+    });
+  }
+  @override
+  void initState() {
+    getByData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,10 +73,18 @@ class _NoteHomeState extends State<NoteHome> {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: 10,
+                itemCount: noteData.length,
                 itemBuilder: (context, index) => Dismissible(
                   key: UniqueKey(),
                   direction: DismissDirection.horizontal,
+                  confirmDismiss: (direction) async{
+                    if(direction==DismissDirection.endToStart){
+                      var success=await NoteDelete().deleteNote(id: noteData[index]["id"]);
+                    }
+                    else if(direction== DismissDirection.startToEnd){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => NoteEdit()));
+                    }
+                  },
                   background: Container(
                     decoration: BoxDecoration(color: Colors.green),
                     child: Center(
@@ -79,10 +103,13 @@ class _NoteHomeState extends State<NoteHome> {
                   ),
                   child: InkWell(
                     hoverColor: Colors.transparent,
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => NoteEdit(),));
-                    },
+                    onTap: () {
 
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => NoteEdit(id: noteData[index]["id"], notes: ,)),
+                      );
+                    },
                     child: Container(
                       margin: EdgeInsets.all(3),
                       height: 70,
@@ -101,7 +128,7 @@ class _NoteHomeState extends State<NoteHome> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    "My name is Radhesh",
+                                    "No Title",
                                     style: TextStyle(
                                       fontSize: 18,
                                       color: Color(0xff444545),
@@ -119,7 +146,7 @@ class _NoteHomeState extends State<NoteHome> {
                             ),
                             Expanded(
                               child: Text(
-                                "i am a flutter developer",
+                                "${noteData[index]["note"]}",
                                 style: TextStyle(color: Color(0xff444545)),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
@@ -140,8 +167,11 @@ class _NoteHomeState extends State<NoteHome> {
         backgroundColor: Color(0xffE1E1E1),
         hoverColor: Colors.transparent,
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => NoteAdd(),));
-        } ,
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => NoteAddScreen()),
+          ).then((v){getByData();});
+        },
         child: Center(child: Icon(Icons.add)),
       ),
     );
