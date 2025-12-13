@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:notebook/controller/delete/noteDelete.dart';
 import 'package:notebook/controller/get/noteAdd.dart';
+import 'package:notebook/model/noteModel.dart';
 import 'package:notebook/screen/noteadd/noteadd.dart';
 import 'package:notebook/screen/noteedit/noteEdit.dart';
 
@@ -19,7 +20,7 @@ final month = now.month;
 final year = now.year;
 
 class _NoteHomeState extends State<NoteHome> {
-  List noteData = [];
+  List<NoteModel> noteData = [];
 
   getByData() async {
     var data = await GetData().getData();
@@ -79,7 +80,7 @@ class _NoteHomeState extends State<NoteHome> {
                   direction: DismissDirection.horizontal,
                   confirmDismiss: (direction) async{
                     if(direction==DismissDirection.endToStart){
-                      var success=await NoteDelete().deleteNote(id: noteData[index]["id"]);
+                      var success=await NoteDelete().deleteNote(id: index);
                     }
                     else if(direction== DismissDirection.startToEnd){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => NoteEdit()));
@@ -107,7 +108,7 @@ class _NoteHomeState extends State<NoteHome> {
 
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => NoteEdit(id: noteData[index]["id"], notes: ,)),
+                        MaterialPageRoute(builder: (context) => NoteEdit(id: noteData[index].id, notes: noteData[index].note,)),
                       );
                     },
                     child: Container(
@@ -146,7 +147,7 @@ class _NoteHomeState extends State<NoteHome> {
                             ),
                             Expanded(
                               child: Text(
-                                "${noteData[index]["note"]}",
+                                "${noteData[index].note}",
                                 style: TextStyle(color: Color(0xff444545)),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
