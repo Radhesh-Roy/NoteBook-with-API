@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "335464692578",
+    "project_id": "notebook-f99b9",
+    "storage_bucket": "notebook-f99b9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335464692578:android:f4db01f243b943e2b2ca3b",
+        "android_client_info": {
+          "package_name": "com.Radheshroy.notebook"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzoKwGn--eIxvgeROBALaSXOIqCOpYx48"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

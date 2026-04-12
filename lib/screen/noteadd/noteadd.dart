@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:notebook/controller/noteadd/noteAdd.dart';
 import 'package:notebook/screen/homepage/note.dart';
@@ -28,7 +29,10 @@ class _NoteAddState extends State<NoteAddScreen> {
             child: InkWell(
                 onTap: (){
                   NoteAdd().noteAdd(data: notes.text);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => NoteHome(),));
+             //   Navigator.push(context, MaterialPageRoute(builder: (context) => NoteHome(),));
+                  FirebaseDatabase database = FirebaseDatabase.instance;
+                  database.ref("Radhesh").set("Roy");
+
 
                 },
                 child: Icon(Icons.check)),
